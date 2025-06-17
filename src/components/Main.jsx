@@ -1,21 +1,26 @@
 import React, { useState } from 'react'
 import RandCard from './RandCard';
 import Skeltonloader from './Skeltonloader';
+import { Link, useParams } from 'react-router-dom';
 
-function Main({ cntData, rgn }) {
+function Main({ cntData }) {
+
+   const { regParams } = useParams() 
+    console.log(regParams);
+
 
   const [status , setStatus] = useState(false)
   const [value , setValue] = useState('')
   function showInp() {
     setStatus(!status)
   }
-  
+ 
   
   return (
     <div className='bg-indigo-50 text-black dark:bg-indigo-900 dark:text-gray-100'>
       
       {
-        !rgn && 
+        !regParams && 
         <div className='w-full flex flex-col justify-center py-[65px] md:py-[105px] items-center dark:bg-indigo-900 dark:text-gray-50'>
         <h1 className='text-[30px] md:text-5xl font-bold  pb-12 tracking-tight'>Welcome to CountryApp Website</h1>
         <h2 className="text-[#8B5CF6] text-[30px] md:text-4xl font-bold tracking-tight">You can find data of any country in this website.</h2>
@@ -26,21 +31,24 @@ function Main({ cntData, rgn }) {
           </div>
       </div>
       }
-       {cntData.length === 0 ?  <Skeltonloader   />   : !rgn &&  !status && <RandCard cntData={cntData} />}
+       {cntData.length === 0 ?  <Skeltonloader   />   : !regParams &&  !status && <RandCard cntData={cntData} />}
       
       
       <div className='py-5 flex justify-center items-center flex-wrap gap-5  dark:bg-indigo-900 dark:text-gray-100'>
         {
           
         cntData
-        .filter(item => rgn ? item.region == rgn : item)
+        .filter(item => regParams ? item.region == regParams : item)
         .filter(item => item.name.toUpperCase().includes(value.toUpperCase()) )
         .map((item, i) => <div key={i} className="max-w-xs  shadow-md hover:shadow-2xl hover:shadow-gray- group  bg-indigo-200 text-black dark:bg-gray-800 dark:text-gray-100">
           <img src={item.flag} alt="" className="object-cover object-center w-full  h-52 dark:bg-gray-500" />
           <div className="flex flex-col justify-between p-6 space-y-8">
             <div className="space-y-2"> 
               <h3 className='text-md'>{item.region}</h3>
-              <h2 className="text-xl font-semibold tracking-wide group-hover:underline ">{item.name}</h2>
+             <Link to={`/detail/${item.alpha3Code}`}>
+               <h2 className="text-xl font-semibold tracking-wide group-hover:underline ">{item.name}</h2>
+             </Link>
+             
               <div className='flex justify-between'>
                 <p>Population: {item.population}</p>
                 <p>{item.area}</p>

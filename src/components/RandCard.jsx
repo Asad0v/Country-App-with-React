@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react'
 function RandCard({cntData }) {
   const  [country, setCountry ] = useState({})
     
-  useEffect(() => {
-    setCountry(cntData[Math.floor(Math.random() * cntData.length)])
-  },[cntData])  
-// const country = cntData[Math.floor(Math.random() * cntData.length)]
+  useEffect(
+      () => {
+      setCountry(cntData[Math.floor(Math.random() * cntData.length)])
+    },
+    [cntData]
+  )  
     return (
       
       <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12   ">
