@@ -1,3 +1,6 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+.active{
+    color: #8B5CF6;
+}

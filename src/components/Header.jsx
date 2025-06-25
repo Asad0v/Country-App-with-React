@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import { GiWorld } from 'react-icons/gi'
 import { IoMoonOutline, IoSunnyOutline } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import { CountryData } from '../context/DataContext'
+import { RegionData } from '../context/RegDataContext'
 
-function Header({cntData , setRegion}) {
+function Header() {
     const [status, setStatus] = useState(false)
     const [ isdark, setIsDark] = useState(false)
+    const { cntData } = useContext(CountryData)
     
+    const regData = useContext(RegionData)
+  
     
 
-    const regData = []
-    cntData.map(item => {
-        if (!regData.includes( item.region)) {
-            regData.push(item.region)
-        }
-    })
+    
+
+    
      useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
         if (savedTheme === "dark") {
             document.documentElement.classList.add("dark");
-            
             setIsDark(true);
         } else {
             document.documentElement.classList.remove("dark");
@@ -54,25 +55,25 @@ function Header({cntData , setRegion}) {
                        
                         {regData.slice(0,4).map(
                             (item , i) => 
-                                <Link key={i} to={`/countries/${item}`}>
-                                    <li  onClick={()=> setRegion(item)}  key={i} className="flex">
+                                <NavLink key={i} to={`/countries/${item}`}>
+                                    <li    key={i} className="flex">
                                         <p  className="flex items-center px-4 -mb-1 border-b-2 dark:border-">{item}</p>
                                     </li>
-                                </Link>
+                                </NavLink>
                         )}
                     </ul>
-                    <Link to={'/countries'} onClick={() => setRegion(null)}  aria-label="Back to homepage" className="flex items-center p-2">
+                    <Link to={'/countries'}   aria-label="Back to homepage" className="flex items-center p-2">
                         <GiWorld size={40} className='text-[#8B5CF6]' />
                     </Link>
                     <ul className="items-stretch hidden space-x-3 md:flex">
                        
                         {regData.slice(4).map(
                             (item, i) => 
-                                <Link to={`countries/${item}`}>
-                                    <li onClick={()=> setRegion(item)} key={i} className="flex">
+                                <NavLink key={i} to={`countries/${item}`}>
+                                    <li  className="flex">
                                         <p  className="flex items-center px-4 -mb-1 border-b-2 dark:border-">{item}</p>
                                     </li> 
-                                </Link>
+                                </NavLink>
                         )}
                     </ul>
                     <div className='flex gap-3'>
